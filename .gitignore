@@ -1,0 +1,6 @@
+bin/
+out/
+*.swp
+*.swo
+*.tar.gz
+docs/_site
