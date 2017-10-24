@@ -16,6 +16,12 @@ package cmd
 
 import "github.com/spf13/cobra"
 
+/*
+	重新加载命令, 没实现？
+	可以参考： https://github.com/facebookgo/grace
+	优雅的重启
+*/
+
 var Reload = &cobra.Command{
 	Use:   "reload [Module ...]",
 	Short: "Reload an Open-Falcon module's configuration file",
