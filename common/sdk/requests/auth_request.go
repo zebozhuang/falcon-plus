@@ -21,6 +21,7 @@ import (
 	"time"
 )
 
+/* 请求接口 */
 func CurlPlus(uri, method, token_name, token_sig string, headers, params map[string]string) (req *httplib.BeegoHttpRequest, err error) {
 	if method == "GET" {
 		req = httplib.Get(uri)

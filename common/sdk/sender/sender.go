@@ -25,6 +25,7 @@ var MetaDataQueue = NewSafeLinkedList()
 var PostPushUrl string
 var Debug bool
 
+/* 发送 */
 func StartSender() {
 	go startSender()
 }

@@ -21,6 +21,7 @@ import (
 	"net/http"
 )
 
+/* Post提交数据 */
 func PostJsonBody(url string, v interface{}) (response []byte, err error) {
 	bs, err := json.Marshal(v)
 	if err != nil {

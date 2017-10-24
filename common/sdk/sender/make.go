@@ -20,6 +20,7 @@ import (
 	"github.com/open-falcon/falcon-plus/common/model"
 )
 
+/* 生成元数据对象 */
 func MakeMetaData(endpoint, metric, tags string, val interface{}, counterType string, step_and_ts ...int64) *model.JsonMetaData {
 	md := model.JsonMetaData{
 		Endpoint:    endpoint,
@@ -44,24 +45,29 @@ func MakeMetaData(endpoint, metric, tags string, val interface{}, counterType st
 	return &md
 }
 
+/* 生成测量数据 */
 func MakeGaugeValue(endpoint, metric, tags string, val interface{}, step_and_ts ...int64) *model.JsonMetaData {
 	return MakeMetaData(endpoint, metric, tags, val, "GAUGE", step_and_ts...)
 }
 
+/* 生成计数数据 */
 func MakeCounterValue(endpoint, metric, tags string, val interface{}, step_and_ts ...int64) *model.JsonMetaData {
 	return MakeMetaData(endpoint, metric, tags, val, "COUNTER", step_and_ts...)
 }
 
+/* 添加测量数据到队列，MetaDataQueue在sender.go*/
 func PushGauge(endpoint, metric, tags string, val interface{}, step_and_ts ...int64) {
 	md := MakeGaugeValue(endpoint, metric, tags, val, step_and_ts...)
 	MetaDataQueue.PushFront(md)
 }
 
+/*添加计数数据到队列 */
 func PushCounter(endpoint, metric, tags string, val interface{}, step_and_ts ...int64) {
 	md := MakeCounterValue(endpoint, metric, tags, val, step_and_ts...)
 	MetaDataQueue.PushFront(md)
 }
 
+/*添加[测量|计数]数据到队列 */
 func Push(endpoint, metric, tags string, val interface{}, counterType string, step_and_ts ...int64) {
 	md := MakeMetaData(endpoint, metric, tags, val, counterType, step_and_ts...)
 	MetaDataQueue.PushFront(md)

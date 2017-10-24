@@ -25,6 +25,7 @@ import (
 	"github.com/open-falcon/falcon-plus/common/model"
 )
 
+/* 发送添加队列的数据 */
 func PostPush(L []*model.JsonMetaData) error {
 	bs, err := json.Marshal(L)
 	if err != nil {
