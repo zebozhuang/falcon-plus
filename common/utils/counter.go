@@ -18,6 +18,10 @@ import (
 	"fmt"
 )
 
+/*
+	计数数据格式化（包含排序）,返回格式:
+	metric/key1=value1,key2=value2,...
+*/
 func Counter(metric string, tags map[string]string) string {
 	if tags == nil || len(tags) == 0 {
 		return metric

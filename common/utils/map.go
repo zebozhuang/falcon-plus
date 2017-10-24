@@ -19,6 +19,7 @@ import (
 )
 
 // TODO 以下的部分, 考虑放到公共组件库
+/* 对key/value的数据，提取出key数据，并排序 */
 func KeysOfMap(m map[string]string) []string {
 	keys := make(sort.StringSlice, len(m))
 	i := 0

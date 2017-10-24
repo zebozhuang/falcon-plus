@@ -20,6 +20,7 @@ import (
 	"strings"
 )
 
+/* 键值对的数据按key排序，并返回key1=value1,key2=value2...形式的数据 */
 func SortedTags(tags map[string]string) string {
 	if tags == nil {
 		return ""

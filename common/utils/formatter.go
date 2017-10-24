@@ -19,6 +19,7 @@ import (
 	"strings"
 )
 
+/* 浮点型数据格式化，保留小数点后5位，如果没有小数，返回整形数据 */
 func ReadableFloat(raw float64) string {
 	val := strconv.FormatFloat(raw, 'f', 5, 64)
 	if strings.Contains(val, ".") {
