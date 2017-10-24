@@ -25,6 +25,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+/*
+	Open-Falcon启动模块: start [Module ...]
+*/
 var Start = &cobra.Command{
 	Use:   "start [Module ...]",
 	Short: "Start Open-Falcon modules",
@@ -32,19 +35,25 @@ var Start = &cobra.Command{
 Start the specified Open-Falcon modules and run until a stop command is received.
 A module represents a single node in a cluster.
 Modules:
-	` + "all " + strings.Join(g.AllModulesInOrder, " "),
+	` + "all " + strings.Join(g.AllModulesInOrder, " "), /* g.AllModulesInOrder是一个字符串数组，包含所有模块的名称 */
 	RunE:          start,
-	SilenceUsage:  true,
+	SilenceUsage:  true, /* TODO: 这个两个使用的效果? 试了下，用跟没用没区别。 */
 	SilenceErrors: true,
 }
 
+/*
+	PreOrderFlag在falcon-plus\main.go文件中初始化，默认false, 表示模块是否需要排序
+	ConsoleOutputFlag在falcon-plus\main.go文件中初始化，默认false，表示模块是否需要在console输出日志
+*/
 var PreqOrderFlag bool
 var ConsoleOutputFlag bool
 
+/* 获取模块参数，即获取配置文件路径 */
 func cmdArgs(name string) []string {
 	return []string{"-c", g.Cfg(name)}
 }
 
+/* 打开日志文件 */
 func openLogFile(name string) (*os.File, error) {
 	logDir := g.LogDir(name)
 	if err := os.MkdirAll(logDir, 0755); err != nil {
@@ -60,7 +69,9 @@ func openLogFile(name string) (*os.File, error) {
 	return logOutput, nil
 }
 
+/* 执行模块, co参数表示打印log日志到console, name表示模块名字 */
 func execModule(co bool, name string) error {
+	/* 执行： 命令+参数（配置）*/
 	cmd := exec.Command(g.Bin(name), cmdArgs(name)...)
 
 	if co {
@@ -69,6 +80,7 @@ func execModule(co bool, name string) error {
 		return cmd.Run()
 	}
 
+	/* 日志 */
 	logOutput, err := openLogFile(name)
 	if err != nil {
 		return err
@@ -79,6 +91,7 @@ func execModule(co bool, name string) error {
 	return cmd.Start()
 }
 
+/* 模块检查:(1)模块存在 (2)模块配置*/
 func checkStartReq(name string) error {
 	if !g.HasModule(name) {
 		return fmt.Errorf("%s doesn't exist", name)
@@ -92,16 +105,17 @@ func checkStartReq(name string) error {
 	return nil
 }
 
+/* 模块是否启动 */
 func isStarted(name string) bool {
 	ticker := time.NewTicker(time.Millisecond * 100)
 	defer ticker.Stop()
 	for {
 		select {
-		case <-ticker.C:
+		case <-ticker.C: /* 一直在检测, 不会跑到time.After，是否是BUG */
 			if g.IsRunning(name) {
 				return true
 			}
-		case <-time.After(time.Second):
+		case <-time.After(time.Second): /* 不会运行到这里，BUG? */
 			return false
 		}
 	}
@@ -129,10 +143,11 @@ func start(c *cobra.Command, args []string) error {
 			continue
 		}
 
+		/* 执行模块 */
 		if err := execModule(ConsoleOutputFlag, moduleName); err != nil {
 			return err
 		}
-
+		/* 再次检测是否在运行 */
 		if isStarted(moduleName) {
 			fmt.Print("[", g.ModuleApps[moduleName], "] ", g.Pid(moduleName), "\n")
 			continue
