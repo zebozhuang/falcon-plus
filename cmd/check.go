@@ -22,6 +22,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+/*
+	Check命令，RunE是运行后返回错误
+	g.AllModulesInOrder是字符串数组，包含open-falcon的模块名称，并且按照一定的顺序，
+*/
 var Check = &cobra.Command{
 	Use:   "check [Module ...]",
 	Short: "Check the status of Open-Falcon modules",
@@ -32,9 +36,14 @@ Modules:
 	RunE: check,
 }
 
+/* Check命令: 主要检查哪些模块是在运行的，哪些没有运行 */
 func check(c *cobra.Command, args []string) error {
-	args = g.RmDup(args)
+	args = g.RmDup(args) /* 复制参数并重名 */
 
+	/*
+		如果参数为空，则默认所有的模块(agent/aggregator/graph/hbs/judge...)[在g/g.go文件]
+		为什么是g/g.go文件，名字好怪，为什么不可以是utility/utils.go?
+	*/
 	if len(args) == 0 {
 		args = g.AllModulesInOrder
 	}
@@ -44,6 +53,7 @@ func check(c *cobra.Command, args []string) error {
 			return fmt.Errorf("%s doesn't exist", moduleName)
 		}
 
+		/* 如果模块在运行，返回模块App名称（比较正经）, UP, 模块的进程PID */
 		if g.IsRunning(moduleName) {
 			fmt.Printf("%20s %10s %15s \n", g.ModuleApps[moduleName], "UP", g.Pid(moduleName))
 		} else {
