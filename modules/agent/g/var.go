@@ -65,6 +65,7 @@ func InitRpcClients() {
 	}
 }
 
+/* 发送测量数据 */
 func SendToTransfer(metrics []*model.MetricValue) {
 	if len(metrics) == 0 {
 		return

@@ -28,6 +28,7 @@ var (
 	TransferClients     map[string]*SingleConnRpcClient = map[string]*SingleConnRpcClient{}
 )
 
+/* 发送测量数据 */
 func SendMetrics(metrics []*model.MetricValue, resp *model.TransferResponse) {
 	rand.Seed(time.Now().UnixNano())
 	for _, i := range rand.Perm(len(Config().Transfer.Addrs)) {
@@ -44,6 +45,7 @@ func SendMetrics(metrics []*model.MetricValue, resp *model.TransferResponse) {
 	}
 }
 
+/* 初始化Transfer客户端 */
 func initTransferClient(addr string) *SingleConnRpcClient {
 	var c *SingleConnRpcClient = &SingleConnRpcClient{
 		RpcServer: addr,
@@ -56,6 +58,7 @@ func initTransferClient(addr string) *SingleConnRpcClient {
 	return c
 }
 
+/* 更新测量数据 */
 func updateMetrics(c *SingleConnRpcClient, metrics []*model.MetricValue, resp *model.TransferResponse) bool {
 	err := c.Call("Transfer.Update", metrics, resp)
 	if err != nil {
@@ -65,6 +68,7 @@ func updateMetrics(c *SingleConnRpcClient, metrics []*model.MetricValue, resp *m
 	return true
 }
 
+/* 按地址获取客户端 */
 func getTransferClient(addr string) *SingleConnRpcClient {
 	TransferClientsLock.RLock()
 	defer TransferClientsLock.RUnlock()

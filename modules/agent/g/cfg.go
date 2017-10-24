@@ -23,6 +23,7 @@ import (
 	"github.com/toolkits/file"
 )
 
+/* 各项配置的读取 */
 type PluginConfig struct {
 	Enabled bool   `json:"enabled"`
 	Dir     string `json:"dir"`
