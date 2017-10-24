@@ -27,6 +27,7 @@ import (
 )
 
 // ConnPools Manager
+/* 远程连接池管理 */
 type SafeRpcConnPools struct {
 	sync.RWMutex
 	M           map[string]*connp.ConnPool
@@ -36,6 +37,7 @@ type SafeRpcConnPools struct {
 	CallTimeout int
 }
 
+/* 创建RPC连接池管理对象 */
 func CreateSafeRpcConnPools(maxConns, maxIdle, connTimeout, callTimeout int, cluster []string) *SafeRpcConnPools {
 	cp := &SafeRpcConnPools{M: make(map[string]*connp.ConnPool), MaxConns: maxConns, MaxIdle: maxIdle,
 		ConnTimeout: connTimeout, CallTimeout: callTimeout}
@@ -51,6 +53,7 @@ func CreateSafeRpcConnPools(maxConns, maxIdle, connTimeout, callTimeout int, clu
 	return cp
 }
 
+/* 创建RPC连接池管理对象，使用json? */
 func CreateSafeJsonrpcConnPools(maxConns, maxIdle, connTimeout, callTimeout int, cluster []string) *SafeRpcConnPools {
 	cp := &SafeRpcConnPools{M: make(map[string]*connp.ConnPool), MaxConns: maxConns, MaxIdle: maxIdle,
 		ConnTimeout: connTimeout, CallTimeout: callTimeout}
@@ -81,6 +84,7 @@ func (this *SafeRpcConnPools) Call(addr, method string, args interface{}, resp i
 	rpcClient := conn.(*rpcpool.RpcClient)
 	callTimeout := time.Duration(this.CallTimeout) * time.Millisecond
 
+	/* 并发发送数据，使用channel */
 	done := make(chan error, 1)
 	go func() {
 		done <- rpcClient.Call(method, args, resp)
@@ -101,6 +105,7 @@ func (this *SafeRpcConnPools) Call(addr, method string, args interface{}, resp i
 	}
 }
 
+/* 获取连接池 */
 func (this *SafeRpcConnPools) Get(address string) (*connp.ConnPool, bool) {
 	this.RLock()
 	defer this.RUnlock()
@@ -108,6 +113,7 @@ func (this *SafeRpcConnPools) Get(address string) (*connp.ConnPool, bool) {
 	return p, exists
 }
 
+/* 销毁连接池 */
 func (this *SafeRpcConnPools) Destroy() {
 	this.Lock()
 	defer this.Unlock()
@@ -122,6 +128,7 @@ func (this *SafeRpcConnPools) Destroy() {
 	}
 }
 
+/* 连接池管理的状态：多少连接活跃，连接总数, 多少连接闲置*/
 func (this *SafeRpcConnPools) Proc() []string {
 	procs := []string{}
 	for _, cp := range this.M {
@@ -130,6 +137,7 @@ func (this *SafeRpcConnPools) Proc() []string {
 	return procs
 }
 
+/* 创建连接池对象 */
 func createOneRpcPool(name string, address string, connTimeout time.Duration, maxConns int, maxIdle int) *connp.ConnPool {
 	p := connp.NewConnPool(name, address, int32(maxConns), int32(maxIdle))
 	p.New = func(connName string) (connp.NConn, error) {
@@ -149,6 +157,7 @@ func createOneRpcPool(name string, address string, connTimeout time.Duration, ma
 	return p
 }
 
+/* 创建连接池对象，与createOneRpcPool区别？codec? */
 func createOneJsonrpcPool(name string, address string, connTimeout time.Duration, maxConns int, maxIdle int) *connp.ConnPool {
 	p := connp.NewConnPool(name, address, int32(maxConns), int32(maxIdle))
 	p.New = func(connName string) (connp.NConn, error) {
