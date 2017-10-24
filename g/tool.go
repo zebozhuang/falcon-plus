@@ -21,6 +21,12 @@ import (
 	"strings"
 )
 
+/*
+	以下是open-falcon的工具模块，主要是对配置文件、模块顺序、日志文件、模块进程
+	提供相应的工具函数
+*/
+
+/* 判断当前日志文件是否存在 */
 func HasLogfile(name string) bool {
 	if _, err := os.Stat(LogPath(name)); err != nil {
 		return false
@@ -28,7 +34,9 @@ func HasLogfile(name string) bool {
 	return true
 }
 
+/* 对模块排序 */
 func PreqOrder(moduleArgs []string) []string {
+	/* 模块为空，返回空 */
 	if len(moduleArgs) == 0 {
 		return []string{}
 	}
@@ -36,6 +44,7 @@ func PreqOrder(moduleArgs []string) []string {
 	var modulesInOrder []string
 
 	// get arguments which are found in the order
+	/* 按顺序查找出模块 */
 	for _, nameOrder := range AllModulesInOrder {
 		for _, nameArg := range moduleArgs {
 			if nameOrder == nameArg {
@@ -43,7 +52,9 @@ func PreqOrder(moduleArgs []string) []string {
 			}
 		}
 	}
+
 	// get arguments which are not found in the order
+	/* 把没有在AllModulesInOrder的模块添加到modulesInOrder中 */
 	for _, nameArg := range moduleArgs {
 		end := 0
 		for _, nameOrder := range modulesInOrder {
@@ -59,6 +70,10 @@ func PreqOrder(moduleArgs []string) []string {
 	return modulesInOrder
 }
 
+/*
+	返回给当前路劲和给出路劲的相对路劲
+	可以查看tool_test.go的Rel单元测试
+*/
 func Rel(p string) string {
 	wd, err := os.Getwd()
 	if err != nil {
@@ -76,6 +91,7 @@ func Rel(p string) string {
 	return r
 }
 
+/* 判断是否有配置 */
 func HasCfg(name string) bool {
 	if _, err := os.Stat(Cfg(name)); err != nil {
 		return false
@@ -83,16 +99,19 @@ func HasCfg(name string) bool {
 	return true
 }
 
+/* 判断是否有name模块 */
 func HasModule(name string) bool {
 	return Modules[name]
 }
 
+/* 设置进程pid, 通过os/exec模块获取进程pid, 并放在PidOf, pid可以是多个 */
 func setPid(name string) {
 	output, _ := exec.Command("pgrep", "-f", ModuleApps[name]).Output()
 	pidStr := strings.TrimSpace(string(output))
 	PidOf[name] = pidStr
 }
 
+/* 获取模块的pid,如果没有，则先设置，然后返回 */
 func Pid(name string) string {
 	if PidOf[name] == "<NOT SET>" {
 		setPid(name)
@@ -100,11 +119,13 @@ func Pid(name string) string {
 	return PidOf[name]
 }
 
+/* 如果当前的pid不是空，那么返回true,否则返回false */
 func IsRunning(name string) bool {
 	setPid(name)
 	return Pid(name) != ""
 }
 
+/* 参数去重 */
 func RmDup(args []string) []string {
 	if len(args) == 0 {
 		return []string{}
