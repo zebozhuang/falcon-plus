@@ -16,6 +16,7 @@ package g
 
 import "path/filepath"
 
+/* 模块的名称、二进制路劲、配置路径、app名称、日志路劲、进程、部署顺序 */
 var Modules map[string]bool
 var BinOf map[string]string
 var cfgOf map[string]string
@@ -25,6 +26,7 @@ var PidOf map[string]string
 var AllModulesInOrder []string
 
 func init() {
+	/* 当前已经实现的模块 */
 	Modules = map[string]bool{
 		"agent":      true,
 		"aggregator": true,
@@ -38,6 +40,7 @@ func init() {
 		"alarm":      true,
 	}
 
+	/* 模块的二进制路劲 BinOf */
 	BinOf = map[string]string{
 		"agent":      "./agent/bin/falcon-agent",
 		"aggregator": "./aggregator/bin/falcon-aggregator",
@@ -51,6 +54,7 @@ func init() {
 		"alarm":      "./alarm/bin/falcon-alarm",
 	}
 
+	/* 各个服务的配置路劲 cfgOf */
 	cfgOf = map[string]string{
 		"agent":      "./agent/config/cfg.json",
 		"aggregator": "./aggregator/config/cfg.json",
@@ -64,6 +68,7 @@ func init() {
 		"alarm":      "./alarm/config/cfg.json",
 	}
 
+	/* 模块对应app名称 */
 	ModuleApps = map[string]string{
 		"agent":      "falcon-agent",
 		"aggregator": "falcon-aggregator",
@@ -77,6 +82,7 @@ func init() {
 		"alarm":      "falcon-alarm",
 	}
 
+	/* 模块的日志路劲 */
 	logpathOf = map[string]string{
 		"agent":      "./agent/logs/agent.log",
 		"aggregator": "./aggregator/logs/aggregator.log",
@@ -90,6 +96,7 @@ func init() {
 		"alarm":      "./alarm/logs/alarm.log",
 	}
 
+	/* 模块的进程pid,初始化为<NOT SET> */
 	PidOf = map[string]string{
 		"agent":      "<NOT SET>",
 		"aggregator": "<NOT SET>",
@@ -104,6 +111,7 @@ func init() {
 	}
 
 	// Modules are deployed in this order
+	/* 按顺序部署模块 */
 	AllModulesInOrder = []string{
 		"graph",
 		"hbs",
@@ -118,21 +126,25 @@ func init() {
 	}
 }
 
+/* 获取模块二进制的路劲 */
 func Bin(name string) string {
 	p, _ := filepath.Abs(BinOf[name])
 	return p
 }
 
+/* 获取模块的配置路径 */
 func Cfg(name string) string {
 	p, _ := filepath.Abs(cfgOf[name])
 	return p
 }
 
+/* 获取日志的路劲 */
 func LogPath(name string) string {
 	p, _ := filepath.Abs(logpathOf[name])
 	return p
 }
 
+/* 获取日志的目录 */
 func LogDir(name string) string {
 	d, _ := filepath.Abs(filepath.Dir(logpathOf[name]))
 	return d
