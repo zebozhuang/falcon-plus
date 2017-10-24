@@ -18,6 +18,11 @@ import (
 	"fmt"
 )
 
+/*
+	TODO: Agent是做什么的？
+*/
+
+/* AgentReport请求对象 */
 type AgentReportRequest struct {
 	Hostname      string
 	IP            string
@@ -25,6 +30,7 @@ type AgentReportRequest struct {
 	PluginVersion string
 }
 
+/* 返回AgentReport请求的信息 */
 func (this *AgentReportRequest) String() string {
 	return fmt.Sprintf(
 		"<Hostname:%s, IP:%s, AgentVersion:%s, PluginVersion:%s>",
@@ -35,16 +41,19 @@ func (this *AgentReportRequest) String() string {
 	)
 }
 
+/* Agent更新信息对象 */
 type AgentUpdateInfo struct {
-	LastUpdate    int64
-	ReportRequest *AgentReportRequest
+	LastUpdate    int64               // 更新时间
+	ReportRequest *AgentReportRequest // AgentReport对象
 }
 
+/* Agent心跳请求对象 */
 type AgentHeartbeatRequest struct {
-	Hostname string
-	Checksum string
+	Hostname string //主机
+	Checksum string //checksum校验
 }
 
+/* 返回Agent心跳信息 */
 func (this *AgentHeartbeatRequest) String() string {
 	return fmt.Sprintf(
 		"<Hostname: %s, Checksum: %s>",
@@ -53,11 +62,13 @@ func (this *AgentHeartbeatRequest) String() string {
 	)
 }
 
+/* Agent插件回应 */
 type AgentPluginsResponse struct {
-	Plugins   []string
-	Timestamp int64
+	Plugins   []string // 插件
+	Timestamp int64    // 时间戳
 }
 
+/* Agent插件信息 */
 func (this *AgentPluginsResponse) String() string {
 	return fmt.Sprintf(
 		"<Plugins:%v, Timestamp:%v>",
@@ -67,6 +78,7 @@ func (this *AgentPluginsResponse) String() string {
 }
 
 // e.g. net.port.listen or proc.num
+/* 测量指标 */
 type BuiltinMetric struct {
 	Metric string
 	Tags   string
@@ -80,12 +92,14 @@ func (this *BuiltinMetric) String() string {
 	)
 }
 
+/* 测量指标回应 */
 type BuiltinMetricResponse struct {
 	Metrics   []*BuiltinMetric
 	Checksum  string
 	Timestamp int64
 }
 
+/* 测量指标信息 */
 func (this *BuiltinMetricResponse) String() string {
 	return fmt.Sprintf(
 		"<Metrics:%v, Checksum:%s, Timestamp:%v>",
@@ -95,6 +109,7 @@ func (this *BuiltinMetricResponse) String() string {
 	)
 }
 
+/* 测量指标对象序列 */
 type BuiltinMetricSlice []*BuiltinMetric
 
 func (this BuiltinMetricSlice) Len() int {
