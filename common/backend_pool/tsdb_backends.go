@@ -22,6 +22,11 @@ import (
 	connp "github.com/toolkits/conn_pool"
 )
 
+/*
+	TSDB客户端连接对象
+	实现 Name, Closed, Close函数
+*/
+
 // TSDB
 type TsdbClient struct {
 	cli  net.Conn
@@ -45,9 +50,12 @@ func (t TsdbClient) Close() error {
 	return nil
 }
 
+/* 创建TsdbConnPool 连接池, 参数：连接地址，最大连接数，最大闲置数，超时时间 */
 func newTsdbConnPool(address string, maxConns int, maxIdle int, connTimeout int) *connp.ConnPool {
+	/* ConnPool提供连接池管理, 返回的NConn是一个包含(Name, Closed, Close函数的interface) */
 	pool := connp.NewConnPool("tsdb", address, int32(maxConns), int32(maxIdle))
 
+	/* 实现自定义创建连接对象 */
 	pool.New = func(name string) (connp.NConn, error) {
 		_, err := net.ResolveTCPAddr("tcp", address)
 		if err != nil {
@@ -65,6 +73,7 @@ func newTsdbConnPool(address string, maxConns int, maxIdle int, connTimeout int)
 	return pool
 }
 
+/* TSDB连接池管理（Helper） */
 type TsdbConnPoolHelper struct {
 	p           *connp.ConnPool
 	maxConns    int
@@ -74,6 +83,7 @@ type TsdbConnPoolHelper struct {
 	address     string
 }
 
+/*创建TSDB连接池管理对象 */
 func NewTsdbConnPoolHelper(address string, maxConns, maxIdle, connTimeout, callTimeout int) *TsdbConnPoolHelper {
 	return &TsdbConnPoolHelper{
 		p:           newTsdbConnPool(address, maxConns, maxIdle, connTimeout),
@@ -85,6 +95,7 @@ func NewTsdbConnPoolHelper(address string, maxConns, maxIdle, connTimeout, callT
 	}
 }
 
+/* 发送数据 */
 func (t *TsdbConnPoolHelper) Send(data []byte) (err error) {
 	conn, err := t.p.Fetch()
 	if err != nil {
@@ -114,6 +125,7 @@ func (t *TsdbConnPoolHelper) Send(data []byte) (err error) {
 	}
 }
 
+/* 销毁连接池 */
 func (t *TsdbConnPoolHelper) Destroy() {
 	if t.p != nil {
 		t.p.Destroy()
