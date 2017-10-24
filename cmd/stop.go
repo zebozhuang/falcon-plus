@@ -24,6 +24,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+/*
+	Open-Falcon停止命令: stop [Module...]
+*/
 var Stop = &cobra.Command{
 	Use:   "stop [Module ...]",
 	Short: "Stop Open-Falcon modules",
@@ -31,10 +34,11 @@ var Stop = &cobra.Command{
 Stop the specified Open-Falcon modules.
 A module represents a single node in a cluster.
 Modules:
-  ` + "all " + strings.Join(g.AllModulesInOrder, " "),
-	RunE: stop,
+  ` + "all " + strings.Join(g.AllModulesInOrder, " "), /* g.AllModulesInOrder是字符串数组，包含模块的名称，按一定顺序排序 */
+	RunE: stop, /* 停止 */
 }
 
+/* 停止命令 */
 func stop(c *cobra.Command, args []string) error {
 	args = g.RmDup(args)
 
@@ -52,6 +56,7 @@ func stop(c *cobra.Command, args []string) error {
 			continue
 		}
 
+		/* 停止进程 */
 		cmd := exec.Command("kill", "-TERM", g.Pid(moduleName))
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
