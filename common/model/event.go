@@ -21,6 +21,7 @@ import (
 )
 
 // 机器监控和实例监控都会产生Event，共用这么一个struct
+/* TODO: Event是做什么的？ */
 type Event struct {
 	Id          string            `json:"id"`
 	Strategy    *Strategy         `json:"strategy"`

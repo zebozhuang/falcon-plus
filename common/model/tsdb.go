@@ -19,6 +19,7 @@ import (
 	"strings"
 )
 
+/* TSDB项 */
 type TsdbItem struct {
 	Metric    string            `json:"metric"`
 	Tags      map[string]string `json:"tags"`

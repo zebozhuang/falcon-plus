@@ -20,6 +20,7 @@ import (
 
 // code == 0 => success
 // code == 1 => bad request
+/* RPC返回码 */
 type SimpleRpcResponse struct {
 	Code int `json:"code"`
 }

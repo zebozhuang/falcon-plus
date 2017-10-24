@@ -18,6 +18,7 @@ import (
 	"fmt"
 )
 
+/* 主机 */
 type Host struct {
 	Id   int
 	Name string

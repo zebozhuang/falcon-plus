@@ -20,6 +20,7 @@ import (
 	"github.com/open-falcon/falcon-plus/common/utils"
 )
 
+/* TODO: Expression是做什么的？*/
 type Expression struct {
 	Id         int               `json:"id"`
 	Metric     string            `json:"metric"`

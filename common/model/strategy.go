@@ -20,6 +20,7 @@ import (
 	"github.com/open-falcon/falcon-plus/common/utils"
 )
 
+/* TODO: 策略是做什么的? */
 type Strategy struct {
 	Id         int               `json:"id"`
 	Metric     string            `json:"metric"`

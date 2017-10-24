@@ -20,6 +20,7 @@ import (
 	MUtils "github.com/open-falcon/falcon-plus/common/utils"
 )
 
+/* 测量值 */
 type MetricValue struct {
 	Endpoint  string      `json:"endpoint"`
 	Metric    string      `json:"metric"`

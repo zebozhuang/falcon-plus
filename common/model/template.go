@@ -18,6 +18,7 @@ import (
 	"fmt"
 )
 
+/* TODO： 模板是做什么的？ */
 type Template struct {
 	Id       int    `json:"id"`
 	Name     string `json:"name"`
