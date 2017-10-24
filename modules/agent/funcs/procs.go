@@ -22,6 +22,7 @@ import (
 	"strings"
 )
 
+/* 进程测量值 */
 func ProcMetrics() (L []*model.MetricValue) {
 
 	reportProcs := g.ReportProcs()

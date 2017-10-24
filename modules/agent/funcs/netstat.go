@@ -46,6 +46,7 @@ var USES = map[string]struct{}{
 	"TCPMinTTLDrop":      {},
 }
 
+/* 网络测量值 */
 func NetstatMetrics() (L []*model.MetricValue) {
 	tcpExts, err := nux.Netstat("TcpExt")
 

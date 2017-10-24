@@ -22,6 +22,7 @@ import (
 	"github.com/toolkits/nux"
 )
 
+/* 硬盘挂载使用信息 */
 func DeviceMetrics() (L []*model.MetricValue) {
 	mountPoints, err := nux.ListMountPoint()
 

@@ -20,6 +20,7 @@ import (
 	"log"
 )
 
+/* 内存测量值 */
 func MemMetrics() []*model.MetricValue {
 	m, err := nux.MemInfo()
 	if err != nil {

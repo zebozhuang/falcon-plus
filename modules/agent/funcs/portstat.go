@@ -23,6 +23,7 @@ import (
 	"log"
 )
 
+/* 端口测量值 */
 func PortMetrics() (L []*model.MetricValue) {
 
 	reportPorts := g.ReportPorts()

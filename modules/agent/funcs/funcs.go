@@ -19,6 +19,7 @@ import (
 	"github.com/open-falcon/falcon-plus/modules/agent/g"
 )
 
+/* 总的统计数据  */
 type FuncsAndInterval struct {
 	Fs       []func() []*model.MetricValue
 	Interval int

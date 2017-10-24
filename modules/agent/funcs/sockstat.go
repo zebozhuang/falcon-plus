@@ -20,6 +20,7 @@ import (
 	"log"
 )
 
+/* socket测量值 */
 func SocketStatSummaryMetrics() (L []*model.MetricValue) {
 	ssMap, err := nux.SocketStatSummary()
 	if err != nil {

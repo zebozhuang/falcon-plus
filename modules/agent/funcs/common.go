@@ -19,6 +19,7 @@ import (
 	"strings"
 )
 
+/* 生成数据对象 */
 func NewMetricValue(metric string, val interface{}, dataType string, tags ...string) *model.MetricValue {
 	mv := model.MetricValue{
 		Metric: metric,
@@ -35,10 +36,12 @@ func NewMetricValue(metric string, val interface{}, dataType string, tags ...str
 	return &mv
 }
 
+/* 生成测量数据对象 */
 func GaugeValue(metric string, val interface{}, tags ...string) *model.MetricValue {
 	return NewMetricValue(metric, val, "GAUGE", tags...)
 }
 
+/* 生成计数数据对象 */
 func CounterValue(metric string, val interface{}, tags ...string) *model.MetricValue {
 	return NewMetricValue(metric, val, "COUNTER", tags...)
 }
