@@ -24,6 +24,7 @@ import (
 	"strings"
 )
 
+/* 根据路劲列出插件 */
 // key: sys/ntp/60_ntp.py
 func ListPlugins(relativePath string) map[string]*Plugin {
 	ret := make(map[string]*Plugin)

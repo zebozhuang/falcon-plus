@@ -25,6 +25,7 @@ var (
 	PluginsWithScheduler = make(map[string]*PluginScheduler)
 )
 
+/* 按时间戳是否相关删除没有用的插件 */
 func DelNoUsePlugins(newPlugins map[string]*Plugin) {
 	for currKey, currPlugin := range Plugins {
 		newPlugin, ok := newPlugins[currKey]
@@ -34,6 +35,7 @@ func DelNoUsePlugins(newPlugins map[string]*Plugin) {
 	}
 }
 
+/* 添加新的插件 */
 func AddNewPlugins(newPlugins map[string]*Plugin) {
 	for fpath, newPlugin := range newPlugins {
 		if _, ok := Plugins[fpath]; ok && newPlugin.MTime == Plugins[fpath].MTime {
@@ -47,12 +49,14 @@ func AddNewPlugins(newPlugins map[string]*Plugin) {
 	}
 }
 
+/* 清除所有的插件 */
 func ClearAllPlugins() {
 	for k := range Plugins {
 		deletePlugin(k)
 	}
 }
 
+/* 删除插件 */
 func deletePlugin(key string) {
 	v, ok := PluginsWithScheduler[key]
 	if ok {

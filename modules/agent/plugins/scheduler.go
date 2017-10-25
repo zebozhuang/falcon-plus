@@ -28,12 +28,14 @@ import (
 	"time"
 )
 
+/* 插件scheduler */
 type PluginScheduler struct {
 	Ticker *time.Ticker
 	Plugin *Plugin
 	Quit   chan struct{}
 }
 
+/* 创建新的插件 */
 func NewPluginScheduler(p *Plugin) *PluginScheduler {
 	scheduler := PluginScheduler{Plugin: p}
 	scheduler.Ticker = time.NewTicker(time.Duration(p.Cycle) * time.Second)
@@ -41,6 +43,7 @@ func NewPluginScheduler(p *Plugin) *PluginScheduler {
 	return &scheduler
 }
 
+/* 按一定的周期运行插件 */
 func (this *PluginScheduler) Schedule() {
 	go func() {
 		for {
@@ -59,6 +62,7 @@ func (this *PluginScheduler) Stop() {
 	close(this.Quit)
 }
 
+/* 运行插件, 并发数据发送到transfer */
 func PluginRun(plugin *Plugin) {
 
 	timeout := plugin.Cycle*1000 - 500
@@ -122,6 +126,7 @@ func PluginRun(plugin *Plugin) {
 		return
 	}
 
+	// 输出的结构进行转换
 	var metrics []*model.MetricValue
 	err = json.Unmarshal(data, &metrics)
 	if err != nil {
@@ -129,5 +134,6 @@ func PluginRun(plugin *Plugin) {
 		return
 	}
 
+	// 发送
 	g.SendToTransfer(metrics)
 }
