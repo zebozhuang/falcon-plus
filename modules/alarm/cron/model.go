@@ -14,6 +14,7 @@
 
 package cron
 
+/* 邮件对象 */
 type MailDto struct {
 	Priority int    `json:"priority"`
 	Metric   string `json:"metric"`
@@ -23,6 +24,7 @@ type MailDto struct {
 	Status   string `json:"status"`
 }
 
+/* Sms对象 */
 type SmsDto struct {
 	Priority int    `json:"priority"`
 	Metric   string `json:"metric"`
@@ -31,6 +33,7 @@ type SmsDto struct {
 	Status   string `json:"status"`
 }
 
+/* Im对象 */
 type ImDto struct {
 	Priority int    `json:"priority"`
 	Metric   string `json:"metric"`

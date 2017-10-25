@@ -26,6 +26,7 @@ import (
 	"github.com/toolkits/net/httplib"
 )
 
+/* 处理回调 */
 func HandleCallback(event *model.Event, action *api.Action) {
 
 	teams := action.Uic
@@ -48,8 +49,10 @@ func HandleCallback(event *model.Event, action *api.Action) {
 		}
 	}
 
+	/* 调用回调 */
 	message := Callback(event, action)
 
+	/* 发送回调信息 */
 	if teams != "" {
 		if action.AfterCallbackSms == 1 {
 			redi.WriteSms(phones, message)

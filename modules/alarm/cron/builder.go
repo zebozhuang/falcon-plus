@@ -22,6 +22,7 @@ import (
 	"github.com/open-falcon/falcon-plus/modules/alarm/g"
 )
 
+/* 构建SMS内容 */
 func BuildCommonSMSContent(event *model.Event) string {
 	return fmt.Sprintf(
 		"[P%d][%s][%s][][%s %s %s %s %s%s%s][O%d %s]",
@@ -40,6 +41,7 @@ func BuildCommonSMSContent(event *model.Event) string {
 	)
 }
 
+/* 构建IM内容 */
 func BuildCommonIMContent(event *model.Event) string {
 	return fmt.Sprintf(
 		"[P%d][%s][%s][][%s %s %s %s %s%s%s][O%d %s]",
@@ -58,6 +60,7 @@ func BuildCommonIMContent(event *model.Event) string {
 	)
 }
 
+/* 构建邮件内容 */
 func BuildCommonMailContent(event *model.Event) string {
 	link := g.Link(event)
 	return fmt.Sprintf(
@@ -79,14 +82,17 @@ func BuildCommonMailContent(event *model.Event) string {
 	)
 }
 
+/* 生成Sms内容 */
 func GenerateSmsContent(event *model.Event) string {
 	return BuildCommonSMSContent(event)
 }
 
+/* 生成Mail内容 */
 func GenerateMailContent(event *model.Event) string {
 	return BuildCommonMailContent(event)
 }
 
+/* 生成IM内容 */
 func GenerateIMContent(event *model.Event) string {
 	return BuildCommonIMContent(event)
 }

@@ -41,8 +41,10 @@ type ActionCache struct {
 	M map[int]*Action
 }
 
+/* ActionCache是本地内存缓存?!!! */
 var Actions = &ActionCache{M: make(map[int]*Action)}
 
+/* 获取ActionCache */
 func (this *ActionCache) Get(id int) *Action {
 	this.RLock()
 	defer this.RUnlock()
@@ -54,12 +56,17 @@ func (this *ActionCache) Get(id int) *Action {
 	return val
 }
 
+/* 设置ActionCache */
 func (this *ActionCache) Set(id int, action *Action) {
 	this.Lock()
 	defer this.Unlock()
 	this.M[id] = action
 }
 
+/* 根据ActionId, Http请求获取Action。
+如果返回为空，那么从ActionCache里面获取
+如果返回不空，那么把结果放在ActionCache里面
+*/
 func GetAction(id int) *Action {
 	action := CurlAction(id)
 
@@ -72,6 +79,7 @@ func GetAction(id int) *Action {
 	return action
 }
 
+/* 根据ActionId, Http请求获取Action */
 func CurlAction(id int) *Action {
 	if id <= 0 {
 		return nil

@@ -140,6 +140,7 @@ func combineIM() {
 	}
 }
 
+/* 合并Sms信息, 并写入数据库 */
 func combineSms() {
 	dtos := popAllSmsDto()
 	count := len(dtos)
@@ -177,7 +178,7 @@ func combineSms() {
 		if len(t) >= 3 {
 			eg = t[2]
 		}
-
+		/* 数据发送到其他地方，做存储 */
 		path, err := api.LinkToSMS(content)
 		sms := ""
 		if err != nil || path == "" {
@@ -193,6 +194,7 @@ func combineSms() {
 	}
 }
 
+/* 从Redis获取所有的Sms内容 */
 func popAllSmsDto() []*SmsDto {
 	ret := []*SmsDto{}
 	queue := g.Config().Redis.UserSmsQueue
@@ -226,6 +228,7 @@ func popAllSmsDto() []*SmsDto {
 	return ret
 }
 
+/* 从Redis获取所有的邮件内容 */
 func popAllMailDto() []*MailDto {
 	ret := []*MailDto{}
 	queue := g.Config().Redis.UserMailQueue

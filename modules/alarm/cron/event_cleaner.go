@@ -20,6 +20,7 @@ import (
 	"time"
 )
 
+/* 定时（Sleep 60s）处理过时任务 */
 func CleanExpiredEvent() {
 	for {
 

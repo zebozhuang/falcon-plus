@@ -35,10 +35,12 @@ func consume(event *cmodel.Event, isHigh bool) {
 		return
 	}
 
+	/* 如果有回调, 处理回调 */
 	if action.Callback == 1 {
 		HandleCallback(event, action)
 	}
 
+	/* 按优先级处理警报 */
 	if isHigh {
 		consumeHighEvents(event, action)
 	} else {
