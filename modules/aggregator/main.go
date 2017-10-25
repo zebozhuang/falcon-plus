@@ -44,15 +44,16 @@ func main() {
 		os.Exit(0)
 	}
 
+	/* 配置 */
 	g.ParseConfig(*cfg)
 	db.Init()
 
-	go http.Start()
-	go cron.UpdateItems()
+	go http.Start()       /* 开启服务 */
+	go cron.UpdateItems() /* 定时任务 */
 
 	// sdk configuration
 	sender.Debug = g.Config().Debug
-	sender.PostPushUrl = g.Config().Api.PushApi
+	sender.PostPushUrl = g.Config().Api.PushApi //用于发送元数据，在sender/push.go我文件使用
 
 	sender.StartSender()
 
@@ -64,5 +65,6 @@ func main() {
 		os.Exit(0)
 	}()
 
+	/* select? */
 	select {}
 }
