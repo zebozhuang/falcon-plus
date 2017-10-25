@@ -21,6 +21,7 @@ import (
 	"sync"
 )
 
+/* 相关配置 */
 type HttpConfig struct {
 	Enabled bool   `json:"enabled"`
 	Listen  string `json:"listen"`
@@ -33,6 +34,7 @@ type DatabaseConfig struct {
 	Interval int64  `json:"interval"`
 }
 
+/* API 配置 */
 type ApiConfig struct {
 	ConnectTimeout int32  `json:"connect_timeout"`
 	RequestTimeout int32  `json:"request_timeout"`
@@ -60,6 +62,7 @@ func Config() *GlobalConfig {
 	return config
 }
 
+/* 解析配置 */
 func ParseConfig(cfg string) {
 	if cfg == "" {
 		log.Fatalln("use -c to specify configuration file")

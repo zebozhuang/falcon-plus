@@ -20,6 +20,7 @@ import (
 	"time"
 )
 
+/* Cluster对象 */
 type Cluster struct {
 	Id          int64
 	GroupId     int64

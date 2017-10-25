@@ -20,6 +20,7 @@ import (
 	"log"
 )
 
+/* 从cluster查询相关监控数据 */
 func ReadClusterMonitorItems() (M map[string]*g.Cluster, err error) {
 	M = make(map[string]*g.Cluster)
 	sql := "SELECT `id`, `grp_id`, `numerator`, `denominator`, `endpoint`, `metric`, `tags`, `ds_type`, `step`, `last_update` FROM `cluster`"

@@ -24,6 +24,6 @@ const (
 )
 
 func init() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU()) // 初始化设置多核并发
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 }

@@ -23,6 +23,7 @@ import (
 
 var DB *sql.DB
 
+/* 初始化MySQL数据库 */
 func Init() {
 	var err error
 	DB, err = sql.Open("mysql", g.Config().Database.Addr)
@@ -30,6 +31,7 @@ func Init() {
 		log.Fatalln("open db fail:", err)
 	}
 
+	/* 设置最大的闲置连接数 */
 	DB.SetMaxIdleConns(g.Config().Database.Idle)
 
 	err = DB.Ping()
