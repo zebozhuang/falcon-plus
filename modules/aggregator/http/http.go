@@ -58,6 +58,7 @@ func AutoRender(w http.ResponseWriter, data interface{}, err error) {
 	RenderDataJson(w, data)
 }
 
+/* 服务开始 */
 func Start() {
 	if !g.Config().Http.Enabled {
 		return

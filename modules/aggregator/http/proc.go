@@ -19,6 +19,7 @@ import (
 	"net/http"
 )
 
+/* cluster items路由 */
 func configProcRoutes() {
 	http.HandleFunc("/items", func(w http.ResponseWriter, r *http.Request) {
 		items, err := db.ReadClusterMonitorItems()

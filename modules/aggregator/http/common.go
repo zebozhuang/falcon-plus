@@ -21,6 +21,7 @@ import (
 	"strings"
 )
 
+/* 通用的路由 */
 func configCommonRoutes() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))
