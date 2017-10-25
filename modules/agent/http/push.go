@@ -21,6 +21,7 @@ import (
 	"net/http"
 )
 
+/* 测量数据push到transfer */
 func configPushRoutes() {
 	http.HandleFunc("/v1/push", func(w http.ResponseWriter, req *http.Request) {
 		if req.ContentLength == 0 {

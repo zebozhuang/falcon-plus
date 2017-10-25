@@ -19,6 +19,7 @@ import (
 	"net/http"
 )
 
+/* iostat路由相关 */
 func configIoStatRoutes() {
 	http.HandleFunc("/page/diskio", func(w http.ResponseWriter, r *http.Request) {
 		RenderDataJson(w, funcs.IOStatsForPage())

@@ -22,6 +22,7 @@ import (
 	"time"
 )
 
+/* 系统相关路由 */
 func configSystemRoutes() {
 
 	http.HandleFunc("/system/date", func(w http.ResponseWriter, req *http.Request) {

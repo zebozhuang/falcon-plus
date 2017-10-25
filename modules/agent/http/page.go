@@ -22,6 +22,7 @@ import (
 	"strings"
 )
 
+/* 这个是做什么的? */
 func configPageRoutes() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -33,5 +34,4 @@ func configPageRoutes() {
 		}
 		http.FileServer(http.Dir(filepath.Join(g.Root, "/public"))).ServeHTTP(w, r)
 	})
-
 }

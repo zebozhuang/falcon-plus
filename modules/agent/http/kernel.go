@@ -21,6 +21,7 @@ import (
 	"net/http"
 )
 
+/* 内核相关路由 */
 func configKernelRoutes() {
 	http.HandleFunc("/proc/kernel/hostname", func(w http.ResponseWriter, r *http.Request) {
 		data, err := g.Hostname()

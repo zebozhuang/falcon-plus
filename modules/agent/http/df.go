@@ -21,6 +21,7 @@ import (
 	"net/http"
 )
 
+/* 磁盘路由相关 */
 func configDfRoutes() {
 	http.HandleFunc("/page/df", func(w http.ResponseWriter, r *http.Request) {
 		mountPoints, err := nux.ListMountPoint()

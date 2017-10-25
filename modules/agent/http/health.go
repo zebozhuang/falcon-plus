@@ -19,6 +19,7 @@ import (
 	"net/http"
 )
 
+/* 健康相关路由，当前是否运行 */
 func configHealthRoutes() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))

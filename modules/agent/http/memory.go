@@ -19,6 +19,7 @@ import (
 	"net/http"
 )
 
+/* 内存路由相关 */
 func configMemoryRoutes() {
 	http.HandleFunc("/page/memory", func(w http.ResponseWriter, r *http.Request) {
 		mem, err := nux.MemInfo()

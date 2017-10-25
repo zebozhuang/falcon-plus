@@ -23,6 +23,7 @@ import (
 	"os/exec"
 )
 
+/* 插件相关路由 */
 func configPluginRoutes() {
 	http.HandleFunc("/plugin/update", func(w http.ResponseWriter, r *http.Request) {
 		if !g.Config().Plugin.Enabled {

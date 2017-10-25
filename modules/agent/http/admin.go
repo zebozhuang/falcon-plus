@@ -22,6 +22,7 @@ import (
 	"time"
 )
 
+/* Admin路由相关接口 */
 func configAdminRoutes() {
 	http.HandleFunc("/exit", func(w http.ResponseWriter, r *http.Request) {
 		if g.IsTrustable(r.RemoteAddr) {

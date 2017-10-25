@@ -27,6 +27,7 @@ type Dto struct {
 	Data interface{} `json:"data"`
 }
 
+/* 初始化Agent相关路由，方便http调用, 底层相关在funcs */
 func init() {
 	configAdminRoutes()
 	configCpuRoutes()
@@ -70,6 +71,7 @@ func AutoRender(w http.ResponseWriter, data interface{}, err error) {
 	RenderDataJson(w, data)
 }
 
+/* 开启服务 */
 func Start() {
 	if !g.Config().Http.Enabled {
 		return

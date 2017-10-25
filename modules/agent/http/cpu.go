@@ -22,6 +22,7 @@ import (
 	"runtime"
 )
 
+/* CPU路由相关接口 */
 func configCpuRoutes() {
 	http.HandleFunc("/proc/cpu/num", func(w http.ResponseWriter, r *http.Request) {
 		RenderDataJson(w, runtime.NumCPU())
